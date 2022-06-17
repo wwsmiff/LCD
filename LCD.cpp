@@ -40,7 +40,6 @@ LCD::LCD()
 			}
 
 			index++;
-			std::cout << x * 100 << ", " << index << std::endl;
 		}
 	}
 
@@ -81,30 +80,51 @@ void LCD::render()
 
 void LCD::update()
 {
-	// Trying to render a "H"
-	blocks[0][0][0].set_state(1);
-	blocks[0][1][0].set_state(1);
-	blocks[0][2][0].set_state(1);
-	blocks[0][3][0].set_state(1);
-	blocks[0][4][0].set_state(1);
-	blocks[0][5][0].set_state(1);
-	blocks[0][6][0].set_state(1);
-	blocks[0][7][0].set_state(1);
+}
 
-	blocks[0][4][0].set_state(1);
-	blocks[0][4][1].set_state(1);
-	blocks[0][4][2].set_state(1);
-	blocks[0][4][3].set_state(1);
-	blocks[0][4][4].set_state(1);
+void LCD::load_character(const std::array<std::array<bool, 5>, 8> &character_map)
+{
+	for(size_t i = 0; i < 8; ++i)
+	{
+		for(size_t j = 0; j < 5; ++j)
+		{
+			blocks[m_cursor][i][j].set_state(character_map[i][j]);
+		}
+	}
 
-	blocks[0][0][4].set_state(1);
-	blocks[0][1][4].set_state(1);
-	blocks[0][2][4].set_state(1);
-	blocks[0][3][4].set_state(1);
-	blocks[0][4][4].set_state(1);
-	blocks[0][5][4].set_state(1);
-	blocks[0][6][4].set_state(1);
-	blocks[0][7][4].set_state(1);
+	m_cursor++;
+}
+
+void LCD::load_character(bool character_map[8][5])
+{
+	for(size_t i = 0; i < 8; ++i)
+	{
+		for(size_t j = 0; j < 5; ++j)
+		{
+			blocks[m_cursor][i][j].set_state(character_map[i][j]);
+		}
+	}
+
+	m_cursor++;
+}
+
+void LCD::load_character(std::array<uint8_t, 8> &character_map)
+{
+	for(size_t i = 0; i < 8; ++i)
+	{
+		for(size_t j = 0; j < 5; ++j)
+		{
+			// bool first = character_map[i] & 0x1;
+			// bool second = character_map[i] & 0x2;
+			// bool third = character_map[i] & 0x4;
+			// bool fourth = character_map[i] & 0x8;
+			// bool fifth = character_map[i] & 0x10;
+			
+			blocks[m_cursor][i][j].set_state(character_map[i] & static_cast<uint8_t>(1 * std::pow(2, j)));
+		}
+	}
+
+	m_cursor++;
 }
 
 void LCD::handle_events()

@@ -17,6 +17,10 @@ public:
 	void update();
 	void handle_events();
 	bool is_running() const;
+	void load_character(const std::array<std::array<bool, 5>, 8> &character_map);
+	void load_character(bool character_map[8][5]);
+	void load_character(std::array<uint8_t, 8> &character_map);
+	
 	friend class Cell;
 
 private:
@@ -35,6 +39,8 @@ private:
 	const uint32_t m_CELL_SIZE = 5;
 
 	std::array<std::array<std::array<Cell, 5>, 8>, 16 * 2> blocks;
+
+	size_t m_cursor = 0;
 };
 
 #endif // LCD_HPP_

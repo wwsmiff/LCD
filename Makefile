@@ -1,11 +1,11 @@
 CC = clang++
 CFLAGS = -std=c++17 -c -Wall
-LFLAGS = -lSDL2
+LFLAGS = -lSDL2 -lpthread
 
 main: main.o LCD.o Cell.o
 	${CC} main.o LCD.o Cell.o -o main ${LFLAGS}
 
-main.o: main.cpp
+main.o: main.cpp fonts_en.hpp
 	${CC} ${CFLAGS} main.cpp
 
 LCD.o: LCD.cpp LCD.hpp
